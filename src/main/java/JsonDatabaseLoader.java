@@ -13,7 +13,7 @@ import java.io.FileReader;
 @NoArgsConstructor
 public class JsonDatabaseLoader {
 
-    public void fromJsonToDatabase() {
+    public static void main(String[] args) {
 
         String jsonFilePath = "/Users/tomas/Java/SDA/ISS/src/iss.json";
 

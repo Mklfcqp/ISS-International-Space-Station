@@ -1,7 +1,10 @@
-public class Main {
-    // test commit to github
 
-    // nova uloha
+
+public class Main {
+
+    public static void main(String[] args) {
+
+    }
 
 
 }

@@ -26,4 +26,5 @@ public class PersonEntity {
     @Column(name = "craft")
     private String craft;
 
+
 }

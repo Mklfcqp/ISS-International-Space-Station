@@ -9,25 +9,28 @@ import org.hibernate.Transaction;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 
 @NoArgsConstructor
-public class JsonDatabaseLoader {
+public class JsonWorker {
 
-    public static void main(String[] args) {
+    public JsonElement jsonParser(String jsonFilePath) throws IOException {
 
-        String jsonFilePath = "/Users/tomas/Java/SDA/ISS/src/iss.json";
+        BufferedReader reader = new BufferedReader(new FileReader(jsonFilePath));
+        JsonParser jsonParser = new JsonParser();
+        JsonElement jsonElement = jsonParser.parse(reader);
+        reader.close();
+        return jsonElement;
+
+    }
+
+    public void jsonPersonLoaderToDatabase(JsonElement jsonElement) {
 
         try {
             Session session = DbConnect.getSession();
             Transaction transaction = session.beginTransaction();
 
-
-            // Otevření JSON souboru pro čtení
-            BufferedReader reader = new BufferedReader(new FileReader(jsonFilePath));
-            JsonParser jsonParser = new JsonParser();
-
-            // Parse JSON data
-            JsonElement jsonElement = jsonParser.parse(reader);
+            // Test jestli je JSON Object
             if (jsonElement.isJsonObject()) {
                 JsonObject jsonObject = jsonElement.getAsJsonObject();
                 JsonArray peopleArray = jsonObject.getAsJsonArray("people");
@@ -51,10 +54,9 @@ public class JsonDatabaseLoader {
             } else {
                 System.out.println("JSON file is not Object.");
             }
-
-            reader.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 }

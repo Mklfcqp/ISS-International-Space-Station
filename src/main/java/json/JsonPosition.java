@@ -1,7 +1,11 @@
+package json;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import database.DbConnect;
+import entity.ISSPositionEntity;
 import entity.PersonEntity;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
@@ -10,10 +14,12 @@ import org.hibernate.Transaction;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Date;
 
 @NoArgsConstructor
-public class JsonWorker {
+public class JsonPosition implements JsonWorker {
 
+    @Override
     public JsonElement jsonParser(String jsonFilePath) throws IOException {
 
         BufferedReader reader = new BufferedReader(new FileReader(jsonFilePath));
@@ -21,10 +27,10 @@ public class JsonWorker {
         JsonElement jsonElement = jsonParser.parse(reader);
         reader.close();
         return jsonElement;
-
     }
 
-    public void jsonPersonLoaderToDatabase(JsonElement jsonElement) {
+    @Override
+    public void jsonLoaderToDatabase(JsonElement jsonElement) {
 
         try {
             Session session = DbConnect.getSession();
@@ -33,19 +39,22 @@ public class JsonWorker {
             // Test jestli je JSON Object
             if (jsonElement.isJsonObject()) {
                 JsonObject jsonObject = jsonElement.getAsJsonObject();
-                JsonArray peopleArray = jsonObject.getAsJsonArray("people");
+                JsonArray positionArray = jsonObject.getAsJsonArray("iss_position");
 
                 // Iterace přes JSON pole a uložení dat do databáze
-                for (JsonElement personElement : peopleArray) {
-                    JsonObject personObject = personElement.getAsJsonObject();
-                    String name = personObject.get("name").getAsString();
-                    String craft = personObject.get("craft").getAsString();
+                for (JsonElement positionElement : positionArray) {
+                    JsonObject positionObject = positionElement.getAsJsonObject();
+                    double longitude = positionObject.get("longitude").getAsDouble();
+                    double latitude = positionObject.get("latitude").getAsDouble();
+                    long timestamp = positionObject.get("timestamp").getAsLong();
 
-                    PersonEntity person = new PersonEntity();
-                    person.setName(name);
-                    person.setCraft(craft);
+                    ISSPositionEntity position = new ISSPositionEntity();
+                    position.setLongitude(longitude);
+                    position.setLatitude(latitude);
+                    position.setTimestamp(timestamp);
+                    position.setRecordedAt(new Date());
 
-                    session.save(person);
+                    session.save(position);
                 }
 
                 transaction.commit();
@@ -58,5 +67,4 @@ public class JsonWorker {
             e.printStackTrace();
         }
     }
-
 }

@@ -30,8 +30,8 @@ public class ISSPositionEntity {
     @Column(name = "timestamp")
     private long timestamp;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "recorded_at")
-    private Date recordedAt;
+    @Column(name = "time")
+    private String time;
+    //private LocalDate time;
 
 }

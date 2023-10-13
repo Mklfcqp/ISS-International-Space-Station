@@ -25,28 +25,6 @@ public class Main {
         jsonPosition.jsonLoaderToDatabase(jsonElementPosition);
 
 
-//        long timestamp = 1696751354L;
-//
-//        Date currentDate = new Date(timestamp * 1000);
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-//        String date = dateFormat.format(currentDate);
-//        System.out.println(date);
-
-        
-//        long timestamp = 1696751354L;
-//
-//        String date = fromTimestampToDate(timestamp);
-//        System.out.println(date);
-
-//    public static String fromTimestampToDate(long timestamp) {
-//        Date currentDate = new Date(timestamp * 1000);
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-//        String date = dateFormat.format(currentDate);
-//        return date;
-//    }
-
     }
 
 }

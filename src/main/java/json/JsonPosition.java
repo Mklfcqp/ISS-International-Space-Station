@@ -14,7 +14,9 @@ import org.hibernate.Transaction;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 @NoArgsConstructor
 public class JsonPosition implements JsonWorker {
@@ -48,13 +50,14 @@ public class JsonPosition implements JsonWorker {
                     double latitude = positionObject.get("latitude").getAsDouble();
                     long timestamp = positionObject.get("timestamp").getAsLong();
 
-                    //String time = fromTimestampToDate(timestamp);
+                    String time = fromTimestampToDate(timestamp);
                     
                     ISSPositionEntity position = new ISSPositionEntity();
                     position.setLongitude(longitude);
                     position.setLatitude(latitude);
                     position.setTimestamp(timestamp);
-                    //position.setTime(time);
+
+                    position.setTime(time);
 
                     session.save(position);
                 }
@@ -68,5 +71,13 @@ public class JsonPosition implements JsonWorker {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private String fromTimestampToDate(long timestamp) {
+        Date currentDate = new Date(timestamp * 1000);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        String date = dateFormat.format(currentDate);
+        return date;
     }
 }

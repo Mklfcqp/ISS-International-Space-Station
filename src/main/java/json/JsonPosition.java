@@ -48,11 +48,13 @@ public class JsonPosition implements JsonWorker {
                     double latitude = positionObject.get("latitude").getAsDouble();
                     long timestamp = positionObject.get("timestamp").getAsLong();
 
+                    //String time = fromTimestampToDate(timestamp);
+                    
                     ISSPositionEntity position = new ISSPositionEntity();
                     position.setLongitude(longitude);
                     position.setLatitude(latitude);
                     position.setTimestamp(timestamp);
-                    position.setRecordedAt(new Date());
+                    //position.setTime(time);
 
                     session.save(position);
                 }

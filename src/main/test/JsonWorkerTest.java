@@ -22,7 +22,6 @@ public class JsonWorkerTest {
     @Test
     public void testJsonParser() throws IOException {
         String jsonFilePath = "src/iss.json";
-
         JsonElement jsonElement = jsonWorker.jsonParser(jsonFilePath);
         assertEquals(2,3);
         assertNotNull(jsonElement);

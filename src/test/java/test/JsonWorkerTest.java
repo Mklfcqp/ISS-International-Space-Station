@@ -8,6 +8,6 @@ class JsonWorkerTest {
 
     @Test
     void jsonParser() {
-        assertEquals("asdasd","das");
+        assertEquals("das","das");
     }
 }

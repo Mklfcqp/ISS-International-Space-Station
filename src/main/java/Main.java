@@ -21,7 +21,7 @@ public class Main {
 
         int choice = scanner.nextInt();
 
-        if (choice == 1) {
+        if (choice == 1 {
             System.out.print("Enter the API URL: "); // http://api.open-notify.org/astros.json
             String apiUrl = scanner.next();
             loadFromApi(apiUrl);

@@ -6,8 +6,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class JsonWorkerTest {
 
@@ -24,6 +23,8 @@ public class JsonWorkerTest {
     public void testJsonParser() throws IOException {
         // Arrange
         String jsonFilePath = "src/iss.json";
+
+        assertEquals(1,2);
 
         // Act
         JsonElement jsonElement = jsonWorker.jsonParser(jsonFilePath);

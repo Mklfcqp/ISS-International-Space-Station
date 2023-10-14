@@ -21,15 +21,10 @@ public class JsonWorkerTest {
 
     @Test
     public void testJsonParser() throws IOException {
-        // Arrange
         String jsonFilePath = "src/iss.json";
 
-        assertEquals(1,2);
-
-        // Act
         JsonElement jsonElement = jsonWorker.jsonParser(jsonFilePath);
-
-        // Assert
+        assertEquals(2,3);
         assertNotNull(jsonElement);
         assertTrue(jsonElement.isJsonObject());
     }

@@ -13,6 +13,10 @@ import org.hibernate.Transaction;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 @NoArgsConstructor
 public class JsonPeople implements JsonWorker {
@@ -61,6 +65,25 @@ public class JsonPeople implements JsonWorker {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void loadFromApi(String url) throws IOException, InterruptedException {
+        HttpClient httpClient = HttpClient.newHttpClient();
+        HttpRequest httpRequest = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .build();
+
+        HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 200) {
+            String responseBody = response.body();
+            JsonObject jsonObject = JsonParser.parseString(responseBody).getAsJsonObject();
+            JsonWorker jsonWorker = new JsonPeople();
+            jsonWorker.jsonLoaderToDatabase(jsonObject);
+        } else {
+            System.out.println("HTTP request failed with status code: " + response.statusCode());
         }
     }
 }

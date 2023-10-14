@@ -10,4 +10,6 @@ public interface JsonWorker {
 
      void jsonLoaderToDatabase(JsonElement jsonElement);
 
+     void loadFromApi(String url) throws IOException, InterruptedException;
+
 }

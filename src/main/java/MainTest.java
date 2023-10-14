@@ -1,6 +1,8 @@
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import json.JsonPeople;
+import json.JsonWorker;
 
 import java.io.IOException;
 import java.net.URI;
@@ -37,10 +39,10 @@ public class MainTest {
     }
 
     private static void loadFromFile(String filePath) throws IOException {
-        JsonWorker jsonWorker = new JsonWorker();
+        JsonWorker jsonPeople = new JsonPeople();
 
-        JsonElement jsonElementPeople = jsonWorker.jsonParser(filePath);
-        jsonWorker.jsonPersonLoaderToDatabase(jsonElementPeople);
+        JsonElement jsonElementPeople = jsonPeople.jsonParser(filePath);
+        jsonPeople.jsonLoaderToDatabase(jsonElementPeople);
     }
 
     private static void loadFromApi(String url) throws IOException, InterruptedException {
@@ -54,8 +56,8 @@ public class MainTest {
         if (response.statusCode() == 200) {
             String responseBody = response.body();
             JsonObject jsonObject = JsonParser.parseString(responseBody).getAsJsonObject();
-            JsonWorker jsonWorker = new JsonWorker();
-            jsonWorker.jsonPersonLoaderToDatabase(jsonObject);
+            JsonWorker jsonWorker = new JsonPeople();
+            jsonWorker.jsonLoaderToDatabase(jsonObject);
         } else {
             System.out.println("HTTP request failed with status code: " + response.statusCode());
         }

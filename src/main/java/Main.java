@@ -12,16 +12,16 @@ public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
-        String jsonFilePathPeople = "/Users/tomas/Java/SDA/ISS/src/iss.json";
-        String jsonFilePathPosition = "/Users/tomas/Java/SDA/ISS/src/issposition.json";
+        String jsonFilePathPeople = "iss.json";
+        String jsonFilePathPosition = "issposition.json";
 
         JsonWorker jsonPeople = new JsonPeople();
         JsonWorker jsonPosition = new JsonPosition();
 
-        JsonElement jsonElementPeople = jsonPeople.jsonParser(jsonFilePathPeople);
+        JsonElement jsonElementPeople = jsonPeople.jsonParser("src/" + jsonFilePathPeople);
         jsonPeople.jsonLoaderToDatabase(jsonElementPeople);
 
-        JsonElement jsonElementPosition = jsonPosition.jsonParser(jsonFilePathPosition);
+        JsonElement jsonElementPosition = jsonPosition.jsonParser("src/" + jsonFilePathPosition);
         jsonPosition.jsonLoaderToDatabase(jsonElementPosition);
 
         // test pull request

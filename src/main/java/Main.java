@@ -15,9 +15,6 @@ public class Main {
         String jsonFilePathPeople = "/Users/tomas/Java/SDA/ISS/src/iss.json";
         String jsonFilePathPosition = "/Users/tomas/Java/SDA/ISS/src/issposition.json";
 
-        String urlPeople = "http://api.open-notify.org/astros.json";
-
-
         JsonWorker jsonPeople = new JsonPeople();
         JsonWorker jsonPosition = new JsonPosition();
 
@@ -27,8 +24,7 @@ public class Main {
         JsonElement jsonElementPosition = jsonPosition.jsonParser(jsonFilePathPosition);
         jsonPosition.jsonLoaderToDatabase(jsonElementPosition);
 
-//        jsonPeople.loadFromApi("http://api.open-notify.org/astros.json");
-//        jsonPosition.loadFromApi("http://api.open-notify.org/iss-now.json");
+
 
 
     }

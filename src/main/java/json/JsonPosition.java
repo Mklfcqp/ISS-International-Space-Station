@@ -77,25 +77,6 @@ public class JsonPosition implements JsonWorker {
         }
     }
 
-    @Override
-    public void loadFromApi(String url) throws IOException, InterruptedException {
-        HttpClient httpClient = HttpClient.newHttpClient();
-        HttpRequest httpRequest = HttpRequest.newBuilder()
-                .uri(URI.create(url))
-                .build();
-
-        HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-
-        if (response.statusCode() == 200) {
-            String responseBody = response.body();
-            JsonObject jsonObject = JsonParser.parseString(responseBody).getAsJsonObject();
-            JsonWorker jsonWorker = new JsonPosition();
-            jsonWorker.jsonLoaderToDatabase(jsonObject);
-        } else {
-            System.out.println("HTTP request failed with status code: " + response.statusCode());
-        }
-    }
-
     private String fromTimestampToDate(long timestamp) {
         Date currentDate = new Date(timestamp * 1000);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

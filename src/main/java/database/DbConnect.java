@@ -8,9 +8,7 @@ import org.hibernate.cfg.Configuration;
 
 public class DbConnect {
 
-
     public static Session getSession() {
-
         String dbUserName = System.getenv("DB_USERNAME");
         String dbUserPassword = System.getenv("DB_PASSWORD");
         SessionFactory sessionFactory = new Configuration()

@@ -6,6 +6,6 @@ class JsonWorkerTest {
 
     @Test
     void jsonParser() {
-        assertTrue(1>2);
+        assertEquals("asdasd","das");
     }
 }

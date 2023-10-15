@@ -24,7 +24,7 @@ public class JsonWorkerTest {
         String jsonFilePath = "src/iss.json";
 
         JsonElement jsonElement = jsonWorker.jsonParser(jsonFilePath);
-        assertEquals(3,3);
+        assertEquals(2,3);
         assertNotNull(jsonElement);
         assertTrue(jsonElement.isJsonObject());
     }

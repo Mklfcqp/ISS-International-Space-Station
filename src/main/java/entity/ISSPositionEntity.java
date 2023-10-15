@@ -32,7 +32,6 @@ public class ISSPositionEntity {
 
     @Column(name = "time")
     private String time;
-    //private LocalDate time;
 
 
 

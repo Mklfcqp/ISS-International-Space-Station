@@ -1,27 +1,52 @@
-import com.google.gson.JsonElement;
+import api.APILoaderToDatabase;
+import api.ISSPositionAPI;
+import api.SpacePeopleAPI;
 import database.DbOperations;
 import entity.ISSPositionEntity;
-import json.JsonPeople;
-import json.JsonPosition;
-import json.JsonWorker;
-import java.io.IOException;
+
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) {
 
-        String fileNamePeople = "iss.json";
-        String fileNamePosition = "issposition.json";
+        //nahrani lidi ve vesmiru do databaze
+//        APILoaderToDatabase people = new SpacePeopleAPI();
+//        people.apiLoaderToDatabase();
 
-        JsonWorker jsonPeople = new JsonPeople();
-        JsonWorker jsonPosition = new JsonPosition();
+//        ISSPositionAPI position = new ISSPositionAPI();
+//        //aktualni poloha
+//        position.apiCurrentPosition();
+//
+//        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+//        //nahrani aktualni polohy do databaze kazdych 5 sekund po dobu 20 sekund
+//        ScheduledFuture<?> scheduledFuture = executor.scheduleAtFixedRate(() -> {
+//            position.apiLoaderToDatabase();
+//        }, 0, 5, TimeUnit.SECONDS);
+//
+//
+//        executor.schedule(() -> {
+//            scheduledFuture.cancel(true);
+//            executor.shutdown();
+//        }, 20, TimeUnit.SECONDS);
 
-        JsonElement jsonElementPeople = jsonPeople.jsonParser("src/" + fileNamePeople);
-        jsonPeople.jsonLoaderToDatabase(jsonElementPeople);
+        DbOperations operations = new DbOperations();
+        List<ISSPositionEntity> positions = operations.ISSPositionDataToList();
+        for(ISSPositionEntity e : positions) {
+            System.out.println(e);
+        }
 
-        JsonElement jsonElementPosition = jsonPosition.jsonParser("src/" + fileNamePosition);
-        jsonPosition.jsonLoaderToDatabase(jsonElementPosition);
+
+
+
+
+
+
+
 
 //        DbOperations operations = new DbOperations();
 //        List<ISSPositionEntity> iss = operations.ISSPositionDataToList();

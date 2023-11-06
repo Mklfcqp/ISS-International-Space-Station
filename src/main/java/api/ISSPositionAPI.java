@@ -115,8 +115,14 @@ public class ISSPositionAPI implements APILoaderToDatabase {
     }
 
     private LocalDateTime findLocalDateTimeById(int id) {
+        Session session = DbConnect.getSession();
+        Transaction transaction = session.beginTransaction();
+
         LocalDateTime localDateTime = session.get(ISSPosition.class, id);
         return localDateTime;
+
+        transaction.commit();
+        session.close();
     }
 
     private LocalTime convertToLocalTime(int id) {
@@ -133,13 +139,25 @@ public class ISSPositionAPI implements APILoaderToDatabase {
     }
 
     private double findLatitudeById(int id) {
+        Session session = DbConnect.getSession();
+        Transaction transaction = session.beginTransaction();
+        
         double latitude = session.get(ISSPosition.class, id);
         return latitude;
+
+        transaction.commit();
+        session.close();
     }
 
     private double findLongitudeById(int id) {
+        Session session = DbConnect.getSession();
+        Transaction transaction = session.beginTransaction();
+        
         double longitude = session.get(ISSPosition.class, id);
         return longitude;
+
+        transaction.commit();
+        session.close();
     }
         
     public void ISSspeed() {

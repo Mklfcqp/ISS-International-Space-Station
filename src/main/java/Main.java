@@ -22,6 +22,7 @@ public class Main {
 //        //aktualni poloha
 //        position.apiCurrentPosition();
 //
+//        deletePositionDatabase()
 //        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 //        //nahrani aktualni polohy do databaze kazdych 5 sekund po dobu 20 sekund
 //        ScheduledFuture<?> scheduledFuture = executor.scheduleAtFixedRate(() -> {

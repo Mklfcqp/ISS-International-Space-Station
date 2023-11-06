@@ -15,6 +15,7 @@ public class DbConnect {
                 .configure("hibernate.cfg.xml")
                 .addAnnotatedClass(PersonEntity.class)
                 .addAnnotatedClass(ISSPositionEntity.class)
+                .addAnnotatedClass(CraftEntity.class)
                 .setProperty("hibernate.connection.username", dbUserName)
                 .setProperty("hibernate.connection.password", dbUserPassword)
                 .buildSessionFactory();

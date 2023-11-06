@@ -43,7 +43,7 @@ public class Main {
         
 //        dbOperations.printAllCrafts();
 //        dbOperations.printAllPeople();
-//        dbOperations.findAllPeopleByCraft(String craftName);
+//        dbOperations.printAllPeopleByCraft(String craftName);
 //        dbOperations.printPersonByName(String personName);
 //        dbOperations.addNewCraft(String craftName);
 //        dbOperations.addPersonAndItsCraft(String personName, String craftName);

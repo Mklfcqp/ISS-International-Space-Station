@@ -191,7 +191,7 @@ public class DbOperations {
 
 //---------------------Smazat stanici---------------------
 
-    private static void deleteCraft(String craftName) {
+    private static void deleteCraftByName(String craftName) {
         Session session = DbConnect.getSession();
         Transaction transaction = session.beginTransaction();
 
@@ -205,7 +205,7 @@ public class DbOperations {
 
 //---------------------Smazat cloveka---------------------
 
-    private static void deletePerson(String personName) {
+    private static void deletePersonByName(String personName) {
         Session session = DbConnect.getSession();
         Transaction transaction = session.beginTransaction();
 
@@ -216,5 +216,47 @@ public class DbOperations {
         transaction.commit();
         session.close();
     }
+
+//---------------------Smazat vsechny lidi---------------------
+
+    private void deletePeople(){
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+
+        String hql = "DELETE FROM PersonEntity";
+        Query query = session.createQuery(hql);
+        int deletedRows = query.executeUpdate();
+
+        transaction.commit();
+        session.close();
+    }
     
+//---------------------Smazat vsechny stanice---------------------
+
+    private void deleteCrafts(){
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+
+        String hql = "DELETE FROM CraftEntity";
+        Query query = session.createQuery(hql);
+        int deletedRows = query.executeUpdate();
+
+        transaction.commit();
+        session.close();
+    }
+    
+//---------------------Smazat polohy z databaze---------------------
+
+    private void deletePositionDatabase(){
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+
+        String hql = "DELETE FROM ISSPositionEntity";
+        Query query = session.createQuery(hql);
+        int deletedRows = query.executeUpdate();
+
+        transaction.commit();
+        session.close();
+    }
+  
 }

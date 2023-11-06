@@ -46,7 +46,7 @@ public class ISSPositionAPI implements APILoaderToDatabase {
                 double latitude = issPositionObject.getDouble("latitude");
                 double longitude = issPositionObject.getDouble("longitude");
                 long timestamp = jsonObject.getLong("timestamp");
-                String time = fromTimestampToDate(timestamp);
+                String time = convertTimestampToLocalDateTime(timestamp);
 
                 ISSPositionEntity issPosition = new ISSPositionEntity();
                 issPosition.setLatitude(latitude);
@@ -107,13 +107,6 @@ public class ISSPositionAPI implements APILoaderToDatabase {
         String date = dateFormat.format(currentDate);
         return date;
     }
-
-    /* 
-    private String findTimeById(int id) {
-        String date = session.get(Location.class, id);
-        return date;
-    }
-    */
     
     private LocalDateTime convertTimestampToLocalDateTime(long timestamp) {
         Instant instant = Instant.ofEpochSecond(timestamp);
@@ -121,20 +114,33 @@ public class ISSPositionAPI implements APILoaderToDatabase {
         return localDateTime;
     }
 
-    public void ISSspeed() {
-        
-        long timestamp1 = 1697127761;
-        long timestamp2 = 1697127789;
+    private LocalDateTime findTimeById(int id) {
+        String date = session.get(ISSPosition.class, id);
+        return date;
+    }
 
-        LocalDateTime t1 = convertTimestampToLocalDateTime(timestamp1);
-        LocalDateTime t2 = convertTimestampToLocalDateTime(timestamp2);
+    private LocalTime convertToLocalTime(int id) {
+        LocalDateTime localDateTime = findTimeById(id);
+        LocalTime localTime = localDateTime.toLocalTime(); 
+        return localTime;
+    }
+
+    
+
+    public void ISSspeed() {
+
+        
+        LocalDateTime positionID2 = findTimeById(2);
+
+        // Extrahování pouze času z LocalDateTime
+        
+        LocalTime time2 = positionID2.toLocalTime(); 
+
         
         Location l1 = new Location(50.1412, -51.6531, t1);
         Location l2 = new Location(49.6675, -49.0980, t2);
 
-        // Extrahování pouze času z LocalDateTime
-        LocalTime time1 = t1.toLocalTime(); 
-        LocalTime time2 = t2.toLocalTime(); 
+
 
         double sekundyRozdil = ChronoUnit.SECONDS.between(time2, time1);
 

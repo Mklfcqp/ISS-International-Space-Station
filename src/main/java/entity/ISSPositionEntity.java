@@ -33,6 +33,10 @@ public class ISSPositionEntity {
     @Column(name = "time")
     private LocalDateTime time;
 
+    @OneToOne
+    @JoinColumn(name="craft_id")
+    CraftEntity craft;
+
 
 
 }

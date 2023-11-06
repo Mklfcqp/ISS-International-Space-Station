@@ -27,4 +27,7 @@ public class CraftEntity {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="craft_id")
     private CraftEntity craft;
+
+    @OneToMany(mappedBy = "craft", cascade = CascadeType.ALL)
+    private List<PersonEntity> person;
 }

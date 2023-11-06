@@ -6,7 +6,7 @@ import org.hibernate.Transaction;
 
 import java.util.List;
 
-public class DbOperations {
+public class ISSPositionOperations {
         
 public void apiCurrentPosition() {
         try {

@@ -22,21 +22,16 @@ public class ISSPositionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "longitude")
-    private double longitude;
-
     @Column(name = "latitude")
     private double latitude;
+
+    @Column(name = "longitude")
+    private double longitude;
 
     @Column(name = "timestamp")
     private long timestamp;
 
     @Column(name = "localDateTime")
     private LocalDateTime localDateTime;
-
-    @OneToOne(mappedBy = "position")
-    private CraftEntity craft;
-
-
 
 }

@@ -1,7 +1,5 @@
 package database;
 
-import entity.CraftEntity;
-import entity.ISSPositionEntity;
 import entity.PersonEntity;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -12,25 +10,9 @@ import java.util.List;
 
 public class DbOperations {
 
-//---------------------Vyhledat vsechny stanice---------------------
+//---------------------Print all people---------------------
 
-    private static void printAllCrafts() {
-        Session session = DbConnect.getSession();
-        Transaction transaction = session.beginTransaction();
-
-        List<CraftEntity> crafts = session.createQuery("FROM CraftEntity").list();
-
-        for (CraftEntity craft : crafts) {
-            System.out.println("Craft: " + craft.getName());
-        }
-
-        transaction.commit();
-        session.close();
-    }
-
-//---------------------Vyhledat vsechny lidi---------------------
-
-    private static void printAllPeople() {
+    public void printAllPeople() {
         Session session = DbConnect.getSession();
         Transaction transaction = session.beginTransaction();
 
@@ -44,144 +26,179 @@ public class DbOperations {
         session.close();
     }
 
-//---------------------Vyhledat vsechny lidi dle stanice---------------------
-/*
-    private static void printAllPeopleByCraft(String craftName) {
+//---------------------Print people by craft---------------------
 
-        MovieEntity movie = session.find(MovieEntity.class, 1);
+    public void printAllPeopleByCraft(String craftName) {
+        Session session = DbConnect.getSession();
+        Transaction transaction = session.beginTransaction();
 
-        System.out.println("----------------------------------");
-        System.out.println("FILM-> idfilmu=" + movie.getId() + ";  jmenofilmu=" + movie.getName() + "; directorname=" + movie.getDirector().getName());
-        System.out.println("----------------------------------");
+        Query query = session.createQuery("FROM PersonEntity WHERE craft = :craftName");
+        query.setParameter("craftName", craftName);
 
+        List<PersonEntity> people = query.list();
 
-        DirectorEntity director = session.find(DirectorEntity.class, 2);
-        System.out.println("REJZA-> id=" + director.getId() + "; jmeno=" + director.getName());
-
-        if(director.getMovies()!=null && director.getMovies().size()>0){
-            director.getMovies().forEach(movieEntity -> {
-                System.out.println("           - film=" + movieEntity.getName() );
-            });
+        for (PersonEntity person : people) {
+            System.out.println("Person: " + person.getName() + ", Craft: " + person.getCraft());
         }
-    }
-*/
-//---------------------Vyhledat lidi dle jmena---------------------
-
-    private static void printPersonByName(String personName) {
-        Session session = DbConnect.getSession();
-        Transaction transaction = session.beginTransaction();
-
-        PersonEntity person = session.find(PersonEntity.class, personName);
-        System.out.println("Person: " +person.getName());
-        transaction.commit();
-        session.close();
-    }
-
-//---------------------Pridani nove stanice---------------------
-
-    private static CraftEntity addNewCraft(String craftName){
-        Session session = DbConnect.getSession();
-        Transaction transaction = session.beginTransaction();
-
-        CraftEntity newCraft = new CraftEntity();                                   // vytvoreni nove stanice
-        newCraft.setName(craftName);                                                // nastaveni jmena stanice
-        newCraft.setPosition(null);                                                 // nastaveni polohy stanice
-        session.persist(newCraft);                                                  // ulozeni do db
 
         transaction.commit();
         session.close();
     }
 
-//---------------------Pridani noveho cloveka a k nemu stanici---------------------
+//---------------------Print person by name---------------------
 
-    private static void addPersonAndItsCraft(String personName, String craftName){
+    public void printPersonByName(String personName) {
         Session session = DbConnect.getSession();
         Transaction transaction = session.beginTransaction();
 
-        CraftEntity craft = session.find(CraftEntity.class, craftName);             // nacteni stanice z db
+        Query query = session.createQuery("FROM PersonEntity WHERE name = :name");
+        query.setParameter("name", personName);
+
+        PersonEntity person = (PersonEntity) query.uniqueResult();
+
+        if (person != null) {
+            System.out.println("Person: " +person.getName()+ ", Craft: " +person.getCraft());
+        } else {
+            System.out.println("Person with name '" + personName + "' not found.");
+        }
+
+        transaction.commit();
+        session.close();
+    }
+
+//---------------------Add new person---------------------
+
+    public void addPerson(String personName, String craftName){
+        Session session = DbConnect.getSession();
+        Transaction transaction = session.beginTransaction();
+
         PersonEntity newPerson = new PersonEntity();                                // vytvoreni nove osoby
         newPerson.setName(personName);                                              // nastaveni jmena osoby
-        newPerson.setCraft(craft);                                                  // prirazeni stanice
+        newPerson.setCraft(craftName);                                              // prirazeni stanice
         session.persist(newPerson);                                                 // ulozeni do db
 
+        System.out.println("Person: " + newPerson.getName() + ", Craft: " + newPerson.getCraft());
+
         transaction.commit();
         session.close();
     }
 
-//---------------------Update jmena stanice---------------------
+//---------------------Update craft name---------------------
 
-    private static void updateCraftName(String oldName, String newName){
+    public void updateCraftName(String oldName, String newName){
         Session session = DbConnect.getSession();
         Transaction transaction = session.beginTransaction();
 
-        CraftEntity craft = session.find(CraftEntity.class, oldName);               // nacteni z db
-        craft.setName(newName);                                                     // zmena jmena
-        session.persist(craft);                                                     // ulozeni do db
+        Query query = session.createQuery("FROM PersonEntity WHERE craft = :craft");
+        query.setParameter("craft", oldName);
 
-        transaction.commit();
-        session.close();
+        List<PersonEntity> people = query.list();
+
+        if (!people.isEmpty()) {
+            for (PersonEntity person : people) {
+                person.setCraft(newName);
+                session.merge(person);
+            }
+
+            transaction.commit();
+            session.close();
+
+            for (PersonEntity person : people) {
+                System.out.println("Person: " + person.getName() + ", Craft: " + person.getCraft());
+            }
+        } else {
+            System.out.println("Craft with name '" + oldName + "' not found.");
+            transaction.commit();
+            session.close();
+        }
     }
 
-//---------------------Update jmena cloveka---------------------
+//---------------------Update person name---------------------
 
-    private static void updatePersonName(String oldName, String newName){
+    public void updatePersonName(String oldName, String newName){
         Session session = DbConnect.getSession();
         Transaction transaction = session.beginTransaction();
 
-        PersonEntity person = session.find(PersonEntity.class, oldName);            // nacteni z db
-        craft.setName(newName);                                                     // zmena jmena
-        session.persist(person);                                                    // ulozeni do db
+        Query query = session.createQuery("FROM PersonEntity WHERE name = :name");
+        query.setParameter("name", oldName);
 
-        transaction.commit();
-        session.close();
+        PersonEntity person = (PersonEntity) query.uniqueResult();
+
+        if (person != null) {
+            person.setName(newName);
+            session.persist(person);
+
+            transaction.commit();
+            session.close();
+
+            printPersonByName(newName);
+        } else {
+            System.out.println("Person with name '" + oldName + "' not found.");
+            transaction.commit();
+            session.close();
+        }
     }
 
-//---------------------Update zmena stanice u cloveka---------------------
+//---------------------Update craft name for one person---------------------
 
-    private static void updatePersonCraft(String personName, String craftName) {
-        Session session = DbConnect.getSession();
-        Transaction transaction = session.beginTransaction();
-        
-        PersonEntity person = session.find(PersonEntity.class, personName);         // nacteni person z db
-        CraftEntity craft = session.find(CraftEntity.class, craftName);             // nacteni stanice z db
-        person.setCraft(craft);                                                     // nastaveni stanice pro person
-        session.persist(person);                                                    // ulozeni person do db
-
-        transaction.commit();
-        session.close();
-    }
-
-//---------------------Smazat stanici---------------------
-
-    private static void deleteCraftByName(String craftName) {
+    public void updatePersonCraft(String personName, String newCraftName){
         Session session = DbConnect.getSession();
         Transaction transaction = session.beginTransaction();
 
-        CraftEntity craft = session.find(CraftEntity.class, craftName);             // vyhledani stanice v db
-        if(craft!=null)                                                             // pokud existuje v db
-            session.remove(craft);                                                  // mazeme zaznam dle entity
+        Query query = session.createQuery("FROM PersonEntity WHERE name = :name");
+        query.setParameter("name", personName);
 
-        transaction.commit();
-        session.close();
+        PersonEntity person = (PersonEntity) query.uniqueResult();
+
+        if (person != null) {
+            person.setCraft(newCraftName);
+            session.persist(person);
+
+            transaction.commit();
+            session.close();
+
+            printPersonByName(personName);
+        } else {
+            System.out.println("Person with name '" + personName + "' not found.");
+            transaction.commit();
+            session.close();
+        }
     }
 
-//---------------------Smazat cloveka---------------------
+//---------------------Delete person by name---------------------
 
-    private static void deletePersonByName(String personName) {
+    public void deletePersonByName(String personName) {
         Session session = DbConnect.getSession();
         Transaction transaction = session.beginTransaction();
 
-        PersonEntity person = session.find(PersonEntity.class, personName);          // vyhledani osoby v db
-        if(person!=null)                                                             // pokud existuje v db
-            session.remove(person);                                                  // mazeme zaznam dle entity
+        try {
+            // Vyhledání osoby podle jména
+            Query query = session.createQuery("FROM PersonEntity WHERE name = :name");
+            query.setParameter("name", personName);
 
-        transaction.commit();
-        session.close();
+            PersonEntity person = (PersonEntity) query.uniqueResult();
+
+            if (person != null) {
+                session.remove(person); // Odstranění nalezené osoby
+                transaction.commit();
+                System.out.println("Person with name '" + personName + "' has been deleted from the database.");
+            } else {
+                System.out.println("Person with name '" + personName + "' not found.");
+                transaction.commit();
+            }
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
     }
 
-//---------------------Smazat vsechny lidi---------------------
+//---------------------Delete all people---------------------
 
-    private void deleteAllPeople(){
+    public void deleteAllPeople(){
         Session session = DbConnect.getSession();
         Transaction transaction = session.beginTransaction();
 
@@ -192,24 +209,10 @@ public class DbOperations {
         transaction.commit();
         session.close();
     }
-    
-//---------------------Smazat vsechny stanice---------------------
 
-    private void deleteAllCrafts(){
-        Session session = DbConnect.getSession();
-        Transaction transaction = session.beginTransaction();
+//---------------------Delete all positions---------------------
 
-        String hql = "DELETE FROM CraftEntity";
-        Query query = session.createQuery(hql);
-        int deletedRows = query.executeUpdate();
-
-        transaction.commit();
-        session.close();
-    }
-    
-//---------------------Smazat polohy z databaze---------------------
-
-    private void deleteAllPositions(){
+    public void deleteAllPositions(){
         Session session = DbConnect.getSession();
         Transaction transaction = session.beginTransaction();
 

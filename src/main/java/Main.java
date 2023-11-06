@@ -14,45 +14,39 @@ public class Main {
 
     public static void main(String[] args) {
 
+        DbOperations dbOperations = new DbOperations();
+
         //nahrani lidi ve vesmiru do databaze
-//        APILoaderToDatabase people = new SpacePeopleAPI();
-//        people.apiLoaderToDatabase();
+        APILoaderToDatabase people = new SpacePeopleAPI();
+        people.apiLoaderToDatabase();
 
-//        ISSPositionAPI position = new ISSPositionAPI()
-            // aktualni poloha
+        ISSPositionAPI position = new ISSPositionAPI();
+
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+        //nahrani aktualni polohy do databaze 2x
+        ScheduledFuture<?> scheduledFuture = executor.scheduleAtFixedRate(() -> {
+            position.apiLoaderToDatabase();
+        }, 0, 5, TimeUnit.SECONDS);
+
+        executor.schedule(() -> {
+            scheduledFuture.cancel(true);
+            executor.shutdown();
+        }, 5, TimeUnit.SECONDS);
+
+        // aktualni poloha
 //        position.apiCurrentPosition();
-//        position.ISSspeed();
-//
-//        DbOperations dbOperations = new DbOperations();
-//        dbOperations.deletePositionDatabase();
-//        
-//        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-//        //nahrani aktualni polohy do databaze 2x
-//        ScheduledFuture<?> scheduledFuture = executor.scheduleAtFixedRate(() -> {
-//            position.apiLoaderToDatabase();
-//        }, 0, 5, TimeUnit.SECONDS);
-//
-//
-//        executor.schedule(() -> {
-//            scheduledFuture.cancel(true);
-//            executor.shutdown();
-//        }, 5, TimeUnit.SECONDS);
+        position.ISSspeed();
 
-
-//        dbOperations.printAllCrafts();
 //        dbOperations.printAllPeople();
-//        dbOperations.printAllPeopleByCraft(String craftName);
-//        dbOperations.printPersonByName(String personName);
-//        dbOperations.addNewCraft(String craftName);
-//        dbOperations.addPersonAndItsCraft(String personName, String craftName);
-//        dbOperations.updateCraftName(String oldName, String newName);
-//        dbOperations.updatePersonName(String oldName, String newName);
-//        dbOperations.updatePersonCraft(String personName, String craftName);
-//        dbOperations.deleteCraftByName(String craftName);
-//        dbOperations.deletePersonByName(String personName);
+//        dbOperations.printAllPeopleByCraft("ISS");
+//        dbOperations.printPersonByName("Jasmin Moghbeli");
+//        dbOperations.addPerson("Leo", "Titanic");
+//        dbOperations.updateCraftName("ISS", "vesmirna lodicka");
+//        dbOperations.updatePersonName("Jasmin Moghbeli", "Anonymous");
+//        dbOperations.updatePersonCraft("Jasmin Moghbeli", "vesmirna lodicka");
+//        dbOperations.deletePersonByName("Jasmin Moghbeli");
 //        dbOperations.deleteAllPeople();
-//        dbOperations.deleteAllCrafts();
-//        dbOperations.deleteAllPositions();
+//        dbOperations.deleteAllPositions(); //musel bych nejdriv nechat dojet vlakno
     
     }
 

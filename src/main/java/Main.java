@@ -20,8 +20,8 @@ public class Main {
 
 //        ISSPositionAPI position = new ISSPositionAPI();
 //
-//        DbOperations operations = new DbOperations();
-//        operations.deletePositionDatabase();
+//        DbOperations dbOperations = new DbOperations();
+//        dbOperations.deletePositionDatabase();
 //        
 //        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 //        //nahrani aktualni polohy do databaze 2x
@@ -41,14 +41,21 @@ public class Main {
 //        positionOperations.apiCurrentPosition();
 //        positionOperations.ISSspeed();
         
-        positionOperations.
-        positionOperations.
-        positionOperations.
-        positionOperations.
-        positionOperations.
-
-
-
+//        dbOperations.printAllCrafts();
+//        dbOperations.printAllPeople();
+//        dbOperations.findAllPeopleByCraft(String craftName);
+//        dbOperations.printPersonByName(String personName);
+//        dbOperations.addNewCraft(String craftName);
+//        dbOperations.addPersonAndItsCraft(String personName, String craftName);
+//        dbOperations.updateCraftName(String oldName, String newName);
+//        dbOperations.updatePersonName(String oldName, String newName);
+//        dbOperations.updatePersonCraft(String personName, String craftName);
+//        dbOperations.deleteCraftByName(String craftName);
+//        dbOperations.deletePersonByName(String personName);
+//        dbOperations.deleteAllPeople();
+//        dbOperations.deleteAllCrafts();
+//        dbOperations.deleteAllPositions();
+    
     }
 
 }

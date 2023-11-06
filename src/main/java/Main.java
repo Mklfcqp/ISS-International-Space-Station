@@ -19,11 +19,10 @@ public class Main {
 //        people.apiLoaderToDatabase();
 
 //        ISSPositionAPI position = new ISSPositionAPI();
-//        //aktualni poloha
-//        position.apiCurrentPosition();
 //
 //        DbOperations operations = new DbOperations();
 //        operations.deletePositionDatabase();
+//        
 //        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 //        //nahrani aktualni polohy do databaze 2x
 //        ScheduledFuture<?> scheduledFuture = executor.scheduleAtFixedRate(() -> {
@@ -36,6 +35,10 @@ public class Main {
 //            executor.shutdown();
 //        }, 5, TimeUnit.SECONDS);
 
+
+//        ISSPositionOperations positionOperations = new ISSPositionOperations();        
+//        //aktualni poloha
+//        position.apiCurrentPosition();
     
 
 

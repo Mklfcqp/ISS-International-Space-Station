@@ -14,11 +14,10 @@ public class Main {
 
     public static void main(String[] args) {
 
-        DbOperations dbOperations = new DbOperations();
-
-        //nahrani lidi ve vesmiru do databaze
         APILoaderToDatabase people = new SpacePeopleAPI();
         people.apiLoaderToDatabase();
+
+        //-----------------------------------------------------
 
         ISSPositionAPI position = new ISSPositionAPI();
 
@@ -31,12 +30,16 @@ public class Main {
         executor.schedule(() -> {
             scheduledFuture.cancel(true);
             executor.shutdown();
+//            position.ISSspeed();
         }, 5, TimeUnit.SECONDS);
 
-        // aktualni poloha
-//        position.apiCurrentPosition();
-        position.ISSspeed();
+        //-----------------------------------------------------
 
+//        position.apiCurrentPosition();
+
+        //-----------------------------------------------------
+
+//        DbOperations dbOperations = new DbOperations();
 //        dbOperations.printAllPeople();
 //        dbOperations.printAllPeopleByCraft("ISS");
 //        dbOperations.printPersonByName("Jasmin Moghbeli");

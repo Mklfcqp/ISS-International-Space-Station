@@ -12,6 +12,8 @@ import org.json.JSONTokener;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -103,14 +105,6 @@ public class ISSPositionAPI implements APILoaderToDatabase {
             e.printStackTrace();
         }
     }
-
-//    private String fromTimestampToDate(long timestamp) {
-//        Date currentDate = new Date(timestamp * 1000);
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-//        String date = dateFormat.format(currentDate);
-//        return date;
-//    }
 
     private LocalDateTime convertTimestampToLocalDateTime(long timestamp) {
         Instant instant = Instant.ofEpochSecond(timestamp);
@@ -216,8 +210,9 @@ public class ISSPositionAPI implements APILoaderToDatabase {
 
         //vzorec pro rychlost
         double speedMS = draha / time;
-        double speedKMS = 3.6 * speedMS;
-        System.out.println(speedKMS);
+        double speedKMH = 3.6 * speedMS;
+        BigDecimal roundedSpeed = new BigDecimal(speedKMH).setScale(2, RoundingMode.HALF_UP);
+        System.out.println("Speed of ISS is: "+roundedSpeed+ " km/h");
     }
 
 }

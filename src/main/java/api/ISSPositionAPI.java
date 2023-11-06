@@ -125,31 +125,37 @@ public class ISSPositionAPI implements APILoaderToDatabase {
         return localTime;
     }
 
-    
+    private double secondsDifference(int id2, int id1) {,
+        LocalTime time1 = convertToLocalTime(id1);
+        LocalTime time2 = convertToLocalTime(id2);
+        double difference = ChronoUnit.SECONDS.between(time2, time1);
+        return difference;
+    }
 
+    private double findLatitudeById(int id) {
+        double latitude = session.get(ISSPosition.class, id);
+        return latitude;
+    }
+
+    private double findLongitudeById(int id) {
+        double longitude = session.get(ISSPosition.class, id);
+        return longitude;
+    }
+        
     public void ISSspeed() {
 
-        
-        LocalDateTime positionID2 = findTimeById(2);
+        double lat1 = findLatitudeById(1);
+        double long1 = findLongitudeById(1);
 
-        // Extrahování pouze času z LocalDateTime
-        
-        LocalTime time2 = positionID2.toLocalTime(); 
-
-        
-        Location l1 = new Location(50.1412, -51.6531, t1);
-        Location l2 = new Location(49.6675, -49.0980, t2);
-
-
-
-        double sekundyRozdil = ChronoUnit.SECONDS.between(time2, time1);
+        double lat2 = findLatitudeById(2);
+        double long2 = findLongitudeById(2);
 
         //vzorec pro drahu
         double earthRadius = 6371000;
-        double latitudeRad1 = Math.toRadians(l1.getLatitude());
-        double longitudeRad1 = Math.toRadians(l1.getLongitude());
-        double latitudeRad2 = Math.toRadians(l2.getLatitude());
-        double longitudeRad2 = Math.toRadians(l2.getLongitude());
+        double latitudeRad1 = Math.toRadians(lat1.getLatitude());
+        double longitudeRad1 = Math.toRadians(long1.getLongitude());
+        double latitudeRad2 = Math.toRadians(lat2.getLatitude());
+        double longitudeRad2 = Math.toRadians(long2.getLongitude());
 
         double zavorka1 = ((latitudeRad1 - latitudeRad2)/2);
         double zavorka2 = ((longitudeRad1 - longitudeRad2)/2);
@@ -167,7 +173,7 @@ public class ISSPositionAPI implements APILoaderToDatabase {
         System.out.println("Draha je: " +draha);
 
         //vzorec pro cas
-        double time = -sekundyRozdil;
+        double time = -secondsDifference(2, 1);
 
         //vzorec pro rychlost
         double speedMS = draha / time;

@@ -22,9 +22,10 @@ public class Main {
 //        //aktualni poloha
 //        position.apiCurrentPosition();
 //
-//        deletePositionDatabase()
+//        DbOperations operations = new DbOperations();
+//        operations.deletePositionDatabase();
 //        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-//        //nahrani aktualni polohy do databaze kazdych 5 sekund po dobu 20 sekund
+//        //nahrani aktualni polohy do databaze 2x
 //        ScheduledFuture<?> scheduledFuture = executor.scheduleAtFixedRate(() -> {
 //            position.apiLoaderToDatabase();
 //        }, 0, 5, TimeUnit.SECONDS);
@@ -33,24 +34,9 @@ public class Main {
 //        executor.schedule(() -> {
 //            scheduledFuture.cancel(true);
 //            executor.shutdown();
-//        }, 20, TimeUnit.SECONDS);
+//        }, 5, TimeUnit.SECONDS);
 
-        DbOperations operations = new DbOperations();
-        List<ISSPositionEntity> positions = operations.ISSPositionDataToList();
-        for(ISSPositionEntity e : positions) {
-            System.out.println(e);
-        }
-
-
-
-
-
-
-
-
-
-//        DbOperations operations = new DbOperations();
-//        List<ISSPositionEntity> iss = operations.ISSPositionDataToList();
+    
 
 
 

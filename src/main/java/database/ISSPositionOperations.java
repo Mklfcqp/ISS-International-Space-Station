@@ -1,4 +1,13 @@
+package database;
 
+import entity.ISSPositionEntity;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import java.util.List;
+
+public class DbOperations {
+        
 public void apiCurrentPosition() {
         try {
             URL url = new URL("http://api.open-notify.org/iss-now.json");
@@ -131,5 +140,5 @@ public void apiCurrentPosition() {
         double speedMS = draha / time;
         double speedKMS = 3.6 * speedMS;
         System.out.println(speedKMS);
-
     }
+}

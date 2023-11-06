@@ -26,5 +26,8 @@ public class PersonEntity {
     @Column(name = "craft")
     private String craft;
 
+    @ManyToOne
+    @JoinColumn(name = "craft_id")
+    private CraftEntity craft;
 
 }

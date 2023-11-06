@@ -99,7 +99,7 @@ public class ISSPositionAPI implements APILoaderToDatabase {
             e.printStackTrace();
         }
     }
-
+/*
     private String fromTimestampToDate(long timestamp) {
         Date currentDate = new Date(timestamp * 1000);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -107,20 +107,20 @@ public class ISSPositionAPI implements APILoaderToDatabase {
         String date = dateFormat.format(currentDate);
         return date;
     }
-    
+*/    
     private LocalDateTime convertTimestampToLocalDateTime(long timestamp) {
         Instant instant = Instant.ofEpochSecond(timestamp);
         LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.of("UTC"));
         return localDateTime;
     }
 
-    private LocalDateTime findTimeById(int id) {
-        String date = session.get(ISSPosition.class, id);
-        return date;
+    private LocalDateTime findLocalDateTimeById(int id) {
+        LocalDateTime localDateTime = session.get(ISSPosition.class, id);
+        return localDateTime;
     }
 
     private LocalTime convertToLocalTime(int id) {
-        LocalDateTime localDateTime = findTimeById(id);
+        LocalDateTime localDateTime = findLocalDateTimeById(id);
         LocalTime localTime = localDateTime.toLocalTime(); 
         return localTime;
     }

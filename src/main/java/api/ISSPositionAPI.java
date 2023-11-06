@@ -107,4 +107,68 @@ public class ISSPositionAPI implements APILoaderToDatabase {
         String date = dateFormat.format(currentDate);
         return date;
     }
+
+    /* 
+    private String findTimeById(int id) {
+        String date = session.get(Location.class, id);
+        return date;
+    }
+    */
+    
+    private LocalDateTime convertTimestampToLocalDateTime(long timestamp) {
+        Instant instant = Instant.ofEpochSecond(timestamp);
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.of("UTC"));
+        return localDateTime;
+    }
+
+    public void ISSspeed() {
+        
+        long timestamp1 = 1697127761;
+        long timestamp2 = 1697127789;
+
+        LocalDateTime t1 = convertTimestampToLocalDateTime(timestamp1);
+        LocalDateTime t2 = convertTimestampToLocalDateTime(timestamp2);
+        
+        Location l1 = new Location(50.1412, -51.6531, t1);
+        Location l2 = new Location(49.6675, -49.0980, t2);
+
+        // Extrahování pouze času z LocalDateTime
+        LocalTime time1 = t1.toLocalTime(); 
+        LocalTime time2 = t2.toLocalTime(); 
+
+        double sekundyRozdil = ChronoUnit.SECONDS.between(time2, time1);
+
+        //vzorec pro drahu
+        double earthRadius = 6371000;
+        double latitudeRad1 = Math.toRadians(l1.getLatitude());
+        double longitudeRad1 = Math.toRadians(l1.getLongitude());
+        double latitudeRad2 = Math.toRadians(l2.getLatitude());
+        double longitudeRad2 = Math.toRadians(l2.getLongitude());
+
+        double zavorka1 = ((latitudeRad1 - latitudeRad2)/2);
+        double zavorka2 = ((longitudeRad1 - longitudeRad2)/2);
+
+        double mezivypocet1 = 2 * earthRadius;
+        double mezivypocet2 = Math.pow(Math.sin(zavorka1), 2);
+        double mezivypocet3 = Math.pow(Math.sin(zavorka2), 2);
+        double mezivypocet4 = Math.cos(latitudeRad1);
+        double mezivypocet5 = Math.cos(latitudeRad2);
+        double mezivypocet6 = mezivypocet2 + mezivypocet4 * mezivypocet5 * mezivypocet3;
+        double mezivypocet7 = Math.sqrt(mezivypocet6);
+        double mezivypocet8 = Math.asin(mezivypocet7);
+
+        double draha = mezivypocet1 * mezivypocet8;
+        System.out.println("Draha je: " +draha);
+
+        //vzorec pro cas
+        double time = -sekundyRozdil;
+
+        //vzorec pro rychlost
+        double speedMS = draha / time;
+        double speedKMS = 3.6 * speedMS;
+        System.out.println(speedKMS);
+
+    }
+
+    }
 }

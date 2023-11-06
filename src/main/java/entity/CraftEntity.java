@@ -24,7 +24,7 @@ public class CraftEntity {
     @Column(name = "name")
     private String name;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="craft_id")
-    CraftEntity craft;
+    private CraftEntity craft;
 }

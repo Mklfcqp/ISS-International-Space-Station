@@ -31,7 +31,7 @@ public class ISSPositionEntity {
     private long timestamp;
 
     @Column(name = "time")
-    private String time;
+    private LocalDateTime time;
 
 
 

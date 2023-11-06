@@ -1,62 +1,24 @@
 package database;
 
+import entity.CraftEntity;
 import entity.ISSPositionEntity;
+import entity.PersonEntity;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import java.util.List;
 
+
 public class DbOperations {
 
-
-    public List<ISSPositionEntity> ISSPositionDataToList() {
-
-        Session session = DbConnect.getSession();
-        Transaction transaction = session.beginTransaction();
-
-        List<ISSPositionEntity> positionsFromDatabase = session.createQuery("From ISSPositionEntity").list();
-        List<ISSPositionEntity> positions = positionsFromDatabase;
-
-        transaction.commit();
-        session.close();
-
-        return positions;
-    }
-
-    public void saveToVariables() {
-
-        Session session = sessionFactory.openSession();
-
-        try {
-            session.beginTransaction();
-
-            // Načtení dat z databáze
-            List<ISSPositionEntity> positions = session.createQuery("from PositionEntity", ISSPositionEntity.class).list();
-
-            // Procházení načtených dat a uložení do proměnných
-            for (ISSPositionEntity position : positions) {
-                int id = position.getId();
-                double latitude = position.getLatitude();
-                double longitude = position.getLongitude();
-                Date timestamp = position.getTimestamp();
-                int status = position.getStatus();
-
-                // Zde můžete provést operace s načtenými daty
-                System.out.println(id + "\t" + latitude + "\t" + longitude + "\t" + timestamp + "\t" + status);
-            }
-
-            session.getTransaction().commit();
-        } finally {
-            session.close();
-        }
-    }
 //---------------------Vyhledat vsechny stanice---------------------
 
     private static void printAllCrafts() {
         Session session = DbConnect.getSession();
         Transaction transaction = session.beginTransaction();
 
-        List<CraftEntity> crafts = session.createQuery("FROM CraftEntity").getResultList();
+        List<CraftEntity> crafts = session.createQuery("FROM CraftEntity").list();
 
         for (CraftEntity craft : crafts) {
             System.out.println("Craft: " + craft.getName());
@@ -72,7 +34,7 @@ public class DbOperations {
         Session session = DbConnect.getSession();
         Transaction transaction = session.beginTransaction();
 
-        List<PersonEntity> crafts = session.createQuery("FROM PersonEntity").getResultList();
+        List<PersonEntity> people = session.createQuery("FROM PersonEntity").list();
 
         for (PersonEntity person : people) {
             System.out.println("Person: " + person.getName() + ", Craft: " +person.getCraft());
@@ -110,7 +72,7 @@ public class DbOperations {
         Transaction transaction = session.beginTransaction();
 
         PersonEntity person = session.find(PersonEntity.class, personName);
-        System.out.println("Person: " +person.getNAme()+ ");
+        System.out.println("Person: " +person.getName());
         transaction.commit();
         session.close();
     }
@@ -220,7 +182,7 @@ public class DbOperations {
 //---------------------Smazat vsechny lidi---------------------
 
     private void deleteAllPeople(){
-        Session session = sessionFactory.openSession();
+        Session session = DbConnect.getSession();
         Transaction transaction = session.beginTransaction();
 
         String hql = "DELETE FROM PersonEntity";
@@ -234,7 +196,7 @@ public class DbOperations {
 //---------------------Smazat vsechny stanice---------------------
 
     private void deleteAllCrafts(){
-        Session session = sessionFactory.openSession();
+        Session session = DbConnect.getSession();
         Transaction transaction = session.beginTransaction();
 
         String hql = "DELETE FROM CraftEntity";
@@ -248,7 +210,7 @@ public class DbOperations {
 //---------------------Smazat polohy z databaze---------------------
 
     private void deleteAllPositions(){
-        Session session = sessionFactory.openSession();
+        Session session = DbConnect.getSession();
         Transaction transaction = session.beginTransaction();
 
         String hql = "DELETE FROM ISSPositionEntity";

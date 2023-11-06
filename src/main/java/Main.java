@@ -18,7 +18,10 @@ public class Main {
 //        APILoaderToDatabase people = new SpacePeopleAPI();
 //        people.apiLoaderToDatabase();
 
-//        ISSPositionAPI position = new ISSPositionAPI();
+//        ISSPositionAPI position = new ISSPositionAPI()
+            // aktualni poloha
+//        position.apiCurrentPosition();
+//        position.ISSspeed();
 //
 //        DbOperations dbOperations = new DbOperations();
 //        dbOperations.deletePositionDatabase();
@@ -36,11 +39,6 @@ public class Main {
 //        }, 5, TimeUnit.SECONDS);
 
 
-//        ISSPositionOperations positionOperations = new ISSPositionOperations();        
-//        //aktualni poloha
-//        positionOperations.apiCurrentPosition();
-//        positionOperations.ISSspeed();
-        
 //        dbOperations.printAllCrafts();
 //        dbOperations.printAllPeople();
 //        dbOperations.printAllPeopleByCraft(String craftName);

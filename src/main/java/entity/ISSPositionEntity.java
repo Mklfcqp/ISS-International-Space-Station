@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -30,8 +31,8 @@ public class ISSPositionEntity {
     @Column(name = "timestamp")
     private long timestamp;
 
-    @Column(name = "time")
-    private LocalDateTime time;
+    @Column(name = "localDateTime")
+    private LocalDateTime localDateTime;
 
     @OneToOne(mappedBy = "position")
     private CraftEntity craft;

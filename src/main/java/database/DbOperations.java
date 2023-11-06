@@ -216,36 +216,5 @@ public class DbOperations {
         transaction.commit();
         session.close();
     }
-
-
-    
-
-
-    
-
-
-
-
-    
-
-    public void ISSspeed() {
-
-        //rychlost = draha / cas
-        //draha =
-        //cas = rozdil mezi dvema casy
-
-        /*
-                        zemepisna sirka         zemepisna delka          zemepisna sirka(rad)       zemepisna delka(rad)
-        bod 1           latitude                longitude
-        bod 2           letitude                longitude
-        polomer zeme    6371000m
-                        6371km
-         */
-
-    }
-
-    
-
-
     
 }

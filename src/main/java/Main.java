@@ -38,9 +38,14 @@ public class Main {
 
 //        ISSPositionOperations positionOperations = new ISSPositionOperations();        
 //        //aktualni poloha
-//        position.apiCurrentPosition();
-    
-
+//        positionOperations.apiCurrentPosition();
+//        positionOperations.ISSspeed();
+        
+        positionOperations.
+        positionOperations.
+        positionOperations.
+        positionOperations.
+        positionOperations.
 
 
 

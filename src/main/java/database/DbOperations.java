@@ -84,7 +84,7 @@ public class DbOperations {
 
 //---------------------Vyhledat vsechny lidi dle stanice---------------------
 /*
-    private static void selects2Tables(Session session){
+    private static void printAllPeopleByCraft(String craftName) {
 
         MovieEntity movie = session.find(MovieEntity.class, 1);
 
@@ -117,7 +117,7 @@ public class DbOperations {
 
 //---------------------Pridani nove stanice---------------------
 
-    private static CraftEntity insertNewCraft(String craftName){
+    private static CraftEntity addNewCraft(String craftName){
         Session session = DbConnect.getSession();
         Transaction transaction = session.beginTransaction();
 
@@ -219,7 +219,7 @@ public class DbOperations {
 
 //---------------------Smazat vsechny lidi---------------------
 
-    private void deletePeople(){
+    private void deleteAllPeople(){
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
 
@@ -233,7 +233,7 @@ public class DbOperations {
     
 //---------------------Smazat vsechny stanice---------------------
 
-    private void deleteCrafts(){
+    private void deleteAllCrafts(){
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
 
@@ -247,7 +247,7 @@ public class DbOperations {
     
 //---------------------Smazat polohy z databaze---------------------
 
-    private void deletePositionDatabase(){
+    private void deleteAllPositions(){
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
 
